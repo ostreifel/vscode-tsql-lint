@@ -31,11 +31,12 @@
     "devDependencies": {
         "@types/mocha": "^2.2.32",
         "@types/node": "^6.0.40",
+        "antlr4ts-cli": "^0.4.0-alpha.4",
         "mocha": "^2.3.3",
         "typescript": "^2.0.3",
         "vscode": "^1.0.0"
     },
     "dependencies": {
-        "antlr4": "^4.7.1"
+        "antlr4ts": "^0.4.1-alpha.0"
     }
 }
