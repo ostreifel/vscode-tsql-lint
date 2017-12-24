@@ -4,9 +4,10 @@ import { RuleNode } from "antlr4ts/tree/RuleNode";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ErrorNode } from "antlr4ts/tree/ErrorNode";
 import { AbstractParseTreeVisitor } from "antlr4ts/tree/AbstractParseTreeVisitor";
+import { Token } from "antlr4ts";
 
-class Walker<T> implements AbstractParseTreeVisitor<T> {
-    visit(tree: ParseTree): T {
-        throw new Error("Method not implemented.");
+export abstract class BaseRuleWalker extends AbstractParseTreeVisitor<void> {
+    protected defaultResult(): void {
+        return undefined;
     }
 }
