@@ -11,7 +11,7 @@ export class KeywordCasingRule extends BaseSqlRule {
     constructor() {
         super("KeywordCasing");
     }
-    public applyContext(ctx: SqlRuleContext): void {
+    protected applyContext(ctx: SqlRuleContext): void {
         new class extends BaseRuleWalker {
             visitTerminal(node: TerminalNode): void {
                 const symbol = node.symbol;

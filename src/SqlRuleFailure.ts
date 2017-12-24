@@ -1,9 +1,9 @@
 export class SqlRuleFailure {
     constructor(
-        private readonly start: number,
-        private readonly end: number,
-        private readonly message: string,
+        public readonly start: number,
+        public readonly end: number,
+        public readonly message: string,
         /** For debugging purposes */
-        private readonly triggerText: string,
+        public readonly triggerText: string,
     ) { }
 }

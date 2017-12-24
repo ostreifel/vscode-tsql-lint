@@ -11,5 +11,5 @@ export abstract class BaseSqlRule {
         this.applyContext(ctx);
         return ctx.errors;
     }
-    public abstract applyContext(ctx: SqlRuleContext): void;
+    protected abstract applyContext(ctx: SqlRuleContext): void;
 }
