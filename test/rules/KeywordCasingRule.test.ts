@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { parseSql } from './RuleTestUtils';
-import { KeywordCasingRule } from '../../src/rule/KeywordCasingRule';
+import { KeywordCasingRule } from '../../src/rules/KeywordCasingRule';
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
