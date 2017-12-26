@@ -62,7 +62,7 @@ export class ParsedSqlFile {
                 left = lineIdx + 1;
             }
         } while (compareVal !== 0);
-        const column = charIndex - this.lines[lineIdx].startCharIdx + 1;
+        const column = charIndex - this.lines[lineIdx].startCharIdx;
         return {column, line: lineIdx};
     }
 }
