@@ -1,26 +1,33 @@
 {
-    "name": "sql-lint",
-    "displayName": "Sql Lint",
-    "description": "Lint sql files",
+    "name": "tsql-lint",
+    "displayName": "TSql Lint",
+    "description": "Lint tsql files",
     "version": "0.0.1",
     "publisher": "ottostreifel",
     "engines": {
-        "vscode": "^1.14.0"
+        "vscode": "^1.15.0"
     },
     "categories": [
-        "Other"
+        "Languages",
+        "Linters"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "onLanguage:sql"
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+        "commands": []
+    },
+    "configuration": {
+        "type": "object",
+        "title": "Tsql lint configuration",
+        "properties": {
+            "tsql-lint.maxNumberOfProblems": {
+                "type": "number",
+                "default": 10000,
+                "description": "Controls the maximum number of problems produced by the server."
             }
-        ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",
@@ -32,11 +39,12 @@
         "@types/mocha": "^2.2.32",
         "@types/node": "^6.0.40",
         "antlr4ts-cli": "^0.4.0-alpha.4",
-        "mocha": "^2.3.3",
         "typescript": "^2.0.3",
-        "vscode": "^1.0.0"
+        "vscode": "^1.1.10"
     },
     "dependencies": {
-        "antlr4ts": "^0.4.1-alpha.0"
+        "antlr4ts": "^0.4.1-alpha.0",
+        "vscode-languageclient": "^3.5.0",
+        "vscode-languageserver": "^3.5.0"
     }
 }

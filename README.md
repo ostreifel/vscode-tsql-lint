@@ -1,6 +1,6 @@
-# sql-lint README
+# tsql-lint README
 
-This is the README for your extension "sql-lint". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "tsql-lint". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

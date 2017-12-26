@@ -1,2 +1,2 @@
 cd C:\Users\ottos\Documents\repos\grammars-v4\tsql
-java -jar C:\Users\ottos\Documents\apache-maven-3.5.2\bin\antlr-4.7.1-complete.jar -o C:\Users\ottos\Documents\repos\sql-lint\generated TSqlLexer.g4 TSqlParser.g4 -Dlanguage=JavaScript
+java -jar C:\Users\ottos\Documents\apache-maven-3.5.2\bin\antlr-4.7.1-complete.jar -o C:\Users\ottos\Documents\repos\tsql-lint\generated TSqlLexer.g4 TSqlParser.g4 -Dlanguage=JavaScript

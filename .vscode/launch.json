@@ -30,6 +30,17 @@
             "sourceMaps": true,
             "outFiles": [ "${workspaceRoot}/out/test/**/*.js" ],
             "preLaunchTask": "npm"
+        },
+        {
+            "name": "Attach Language Provider Sample Server",
+            "type": "node",
+            "request": "attach",
+            "protocol": "inspector",
+            "port": 6004,
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceRoot}/out/**/*.js"
+            ]
         }
     ]
 }
