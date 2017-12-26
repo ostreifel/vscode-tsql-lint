@@ -14,7 +14,7 @@
     "activationEvents": [
         "onLanguage:sql"
     ],
-    "main": "./out/src/extension",
+    "main": "./out/src/sqlLintExtension",
     "contributes": {
         "commands": []
     },

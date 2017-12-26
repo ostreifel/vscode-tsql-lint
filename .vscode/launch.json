@@ -27,14 +27,23 @@
             "outFiles": [ "${workspaceRoot}/out/test/**/*.js" ]
         },
         {
-            "name": "Attach Language Provider Sample Server",
+            "name": "Attach Language Provider",
             "type": "node",
             "request": "attach",
             "protocol": "inspector",
-            "port": 6004,
+            "port": 6009,
             "sourceMaps": true,
             "outFiles": [
                 "${workspaceRoot}/out/**/*.js"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch Extension & Attach to Server",
+            "configurations": [
+                "Launch Extension",
+                "Attach Language Provider"
             ]
         }
     ]

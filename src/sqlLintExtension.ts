@@ -3,7 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient'; 
+import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind, ForkOptions } from 'vscode-languageclient'; 
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -13,19 +13,22 @@ export function activate(context: vscode.ExtensionContext) {
         let serverModule = context.asAbsolutePath(path.join('out', 'src', 'server', 'tsqlLintServer.js'));
         console.log("serverpath:", serverModule)
         // The debug options for the server
-        let debugOptions = { execArgv: ["--nolazy", "--debug=6009"] };
+        let debugOptions: ForkOptions = { execArgv: [
+            "--nolazy",
+            "--debug=6009",
+        ] };
     
         // If the extension is launched in debug mode then the debug server options are used
         // Otherwise the run options are used
         let serverOptions: ServerOptions = {
             run : { module: serverModule, transport: TransportKind.ipc },
             debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
-        }
+    }
     
         // Options to control the language client
         let clientOptions: LanguageClientOptions = {
             // Register the server for plain text documents
-            documentSelector: [{scheme: 'file', language: 'plaintext'}],
+            documentSelector: [{scheme: 'file', language: 'sql'}],
             synchronize: {
                 // Synchronize the setting section 'tsql-lint' to the server
                 configurationSection: 'tsql-lint',
