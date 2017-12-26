@@ -1,12 +1,11 @@
 import { Token } from "antlr4ts";
-import { Tsql_fileContext } from "../generated/TSqlParser";
+import { ParsedSqlFile } from "./ParsedSqlFile";
 import { SqlRuleFailure } from "./SqlRuleFailure";
 
 export class SqlRuleContext {
     public readonly errors: SqlRuleFailure[] = [];
     constructor(
-        public readonly originalFileText: string,
-        public readonly file: Tsql_fileContext,
+        public readonly file: ParsedSqlFile,
     ) { }
     /**
      * Use this to get the orignal casing of the text.
@@ -14,10 +13,12 @@ export class SqlRuleContext {
      * versions of the original text
      */
     public text(token: Token) {
-        return this.originalFileText.substring(token.startIndex, token.stopIndex + 1);
+        return this.file.contents.substring(token.startIndex, token.stopIndex + 1);
     }
     public addError(start: number, end: number, message: string) {
-        const text = this.originalFileText.substring(start, end + 1);
-        this.errors.push(new SqlRuleFailure(start, end, message, text));
+        const text = this.file.contents.substring(start, end + 1);
+        const startPos = this.file.toPosition(start);
+        const endPos = this.file.toPosition(end + 1);
+        this.errors.push(new SqlRuleFailure(startPos, endPos, message, text));
     }
 }

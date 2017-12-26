@@ -3,6 +3,8 @@ import {
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter, TextDocument,
     TextDocuments,
 } from "vscode-languageserver";
+import { getErrors } from "../rulesManager";
+import { SqlRuleFailure } from "../SqlRuleFailure";
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
     if (verboseLog) {
@@ -39,12 +41,6 @@ connection.onInitialize((params): InitializeResult => {
     };
 });
 
-// The content of a text document has changed. This event is emitted
-// when the text document first opened or when its content has changed.
-documents.onDidChangeContent((change) => {
-    validateTextDocument(change.document);
-});
-
 // The settings interface describe the server relevant settings part
 // interface ISettings {
 //     "tsql-lint": IExampleSettings;
@@ -69,7 +65,7 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function validateTextDocument(textDocument: TextDocument): void {
-    log("Validating Doc");
+    log(`Validating Doc ${textDocument.uri}`);
     const diagnostics: Diagnostic[] = [];
     // Send the computed diagnostics to VSCode.
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
@@ -83,23 +79,28 @@ connection.onDidChangeWatchedFiles((changeEvent: DidChangeWatchedFilesParams) =>
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-    log("documents.onDidChangeContent");
-    const diagnostics: Diagnostic[] = [];
-    const lines = change.document.getText().split(/\r?\n/g);
-    lines.forEach((line, i) => {
-        const index = line.indexOf("typescript");
-        if (index >= 0) {
-            diagnostics.push({
-                severity: DiagnosticSeverity.Warning,
-                range: {
-                    start: { line: i, character: index},
-                    end: { line: i, character: index + 10 },
+    log(`documents.onDidChangeContent ${change.document.uri}`);
+    const fileContent = change.document.getText();
+
+    function toDiagnostic({message, start, end}: SqlRuleFailure): Diagnostic {
+        return {
+            message,
+            range: {
+                start: {
+                    line: start.line,
+                    character: start.column,
                 },
-                message: `${line.substr(index, 10)} should be spelled TypeScript`,
-                source: "ex",
-            });
-        }
-    });
+                end: {
+                    line: end.line,
+                    character: end.column,
+                },
+            },
+            severity: DiagnosticSeverity.Error,
+        };
+    }
+    const errors: SqlRuleFailure[] = getErrors(fileContent);
+    const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
+    log(`diagnotics count: ${diagnostics.length}`);
     // Send the computed diagnostics to VS Code.
     connection.sendDiagnostics({ uri: change.document.uri, diagnostics });
 });

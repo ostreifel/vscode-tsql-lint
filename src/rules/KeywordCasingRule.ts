@@ -27,6 +27,6 @@ export class KeywordCasingRule extends BaseSqlRule {
                 }
                 super.visitChildren(tree);
             }
-        }().visit(ctx.file);
+        }().visit(ctx.file.node);
     }
 }

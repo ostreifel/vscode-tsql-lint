@@ -1,6 +1,6 @@
 import * as assert from "assert";
+import { ParsedSqlFile } from "../../src/ParsedSqlFile";
 import { KeywordCasingRule } from "../../src/rules/KeywordCasingRule";
-import { parseSql } from "./RuleTestUtils";
 
 it("KeywordCasingRule", () => {
     const sql = `
@@ -12,8 +12,8 @@ it("KeywordCasingRule", () => {
                 id = 21
                 and name <> "sample"
         `;
-    const file = parseSql(sql);
+    const file = new ParsedSqlFile(sql);
     const rule = new KeywordCasingRule();
-    const failures = rule.apply(sql, file).map((f) => f.triggerText);
+    const failures = rule.apply(file).map((f) => f.triggerText);
     assert.deepEqual(["select", "from", "where", "and"], failures);
 });
