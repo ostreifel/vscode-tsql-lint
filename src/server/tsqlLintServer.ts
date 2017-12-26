@@ -1,7 +1,6 @@
 import {
-    CompletionItem, CompletionItemKind, createConnection, Diagnostic, DiagnosticSeverity, DidChangeWatchedFilesParams,
+    createConnection, Diagnostic, DiagnosticSeverity, DidChangeWatchedFilesParams,
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter, TextDocument,
-    TextDocumentPositionParams,
     TextDocuments,
 } from "vscode-languageserver";
 const verboseLog = true;
@@ -24,10 +23,10 @@ documents.listen(connection);
 
 // After the server has started the client sends an initilize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilites.
-let workspaceRoot: string;
+// let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
     log("onintialize");
-    workspaceRoot = params.rootPath;
+    // workspaceRoot = params.rootPath;
     return {
         capabilities: {
             // Tell the client that the server works in FULL text document sync mode
@@ -47,24 +46,24 @@ documents.onDidChangeContent((change) => {
 });
 
 // The settings interface describe the server relevant settings part
-interface ISettings {
-    "tsql-lint": IExampleSettings;
-}
+// interface ISettings {
+//     "tsql-lint": IExampleSettings;
+// }
 
-// These are the example settings we defined in the client's package.json
-// file
-interface IExampleSettings {
-    maxNumberOfProblems: number;
-}
+// // These are the example settings we defined in the client's package.json
+// // file
+// interface IExampleSettings {
+//     maxNumberOfProblems: number;
+// }
 
 // hold the maxNumberOfProblems setting
-let maxNumberOfProblems: number;
+// let maxNumberOfProblems: number;
 // The settings have changed. Is send on server activation
 // as well.
 connection.onDidChangeConfiguration((change) => {
     log("settings", change.settings);
-    const settings = change.settings as ISettings;
-    maxNumberOfProblems = settings["tsql-lint"].maxNumberOfProblems || 100;
+    // const settings = change.settings as ISettings;
+    // maxNumberOfProblems = settings["tsql-lint"].maxNumberOfProblems || 100;
     // Revalidate any open text documents
     documents.all().forEach(validateTextDocument);
 });

@@ -1,4 +1,3 @@
-import { fail } from "assert";
 import { Tsql_fileContext } from "../generated/TSqlParser";
 import { SqlRuleContext } from "./SqlRuleContext";
 import { SqlRuleFailure } from "./SqlRuleFailure";

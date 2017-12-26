@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import * as mocha from "mocha";
 import { KeywordCasingRule } from "../../src/rules/KeywordCasingRule";
 import { parseSql } from "./RuleTestUtils";
 

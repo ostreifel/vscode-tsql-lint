@@ -1,4 +1,3 @@
-import { ParseTree } from "antlr4ts/tree/ParseTree";
 import { RuleNode } from "antlr4ts/tree/RuleNode";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { ConstantContext, IdContext } from "../../generated/TSqlParser";
