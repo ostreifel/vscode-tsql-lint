@@ -3,7 +3,7 @@ import {
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter, TextDocument,
     TextDocuments,
 } from "vscode-languageserver";
-import { getErrors } from "../rulesManager";
+import { executeRules } from "../rulesManager";
 import { SqlRuleFailure } from "../SqlRuleFailure";
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
@@ -98,7 +98,7 @@ documents.onDidChangeContent((change) => {
             severity: DiagnosticSeverity.Error,
         };
     }
-    const errors: SqlRuleFailure[] = getErrors(fileContent);
+    const errors: SqlRuleFailure[] = executeRules(fileContent);
     const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
     log(`diagnotics count: ${diagnostics.length}`);
     // Send the computed diagnostics to VS Code.

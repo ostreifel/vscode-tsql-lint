@@ -27,7 +27,7 @@ export class ParsedSqlFile {
             const lineTexts = contents.split(/\n/g);
             let start = 0;
             for (const line of lineTexts) {
-                lines.push({startCharIdx: start + 1});
+                lines.push({startCharIdx: start});
                 start += line.length + 1;
             }
             return lines;
@@ -41,7 +41,7 @@ export class ParsedSqlFile {
             if (testIdx < line.startCharIdx) {
                 return -1;
             }
-            if (!nextLine || nextLine.startCharIdx < testIdx) {
+            if (nextLine && nextLine.startCharIdx < testIdx) {
                 return 1;
             }
             return 0;
@@ -57,9 +57,9 @@ export class ParsedSqlFile {
             lineIdx = Math.floor((left + right) / 2);
             compareVal = compareToLine(charIndex, lineIdx);
             if (compareVal < 0) {
-                right = lineIdx;
+                right = lineIdx - 1;
             } else if (compareVal > 0) {
-                left = lineIdx;
+                left = lineIdx + 1;
             }
         } while (compareVal !== 0);
         const column = charIndex - this.lines[lineIdx].startCharIdx + 1;
