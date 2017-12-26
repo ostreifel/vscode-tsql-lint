@@ -1,6 +1,6 @@
+import { Token } from "antlr4ts";
 import { Tsql_fileContext } from "../generated/TSqlParser";
 import { SqlRuleFailure } from "./SqlRuleFailure";
-import { Token } from "antlr4ts";
 
 export class SqlRuleContext {
     public readonly errors: SqlRuleFailure[] = [];

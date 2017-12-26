@@ -1,8 +1,7 @@
-import { Tsql_fileContext } from "../generated/TSqlParser";
-import { SqlRuleFailure } from "./SqlRuleFailure";
-import { SqlRuleContext } from "./SqlRuleContext";
 import { fail } from "assert";
-
+import { Tsql_fileContext } from "../generated/TSqlParser";
+import { SqlRuleContext } from "./SqlRuleContext";
+import { SqlRuleFailure } from "./SqlRuleFailure";
 
 export abstract class BaseSqlRule {
     constructor(public readonly name) { }

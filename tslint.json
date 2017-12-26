@@ -5,8 +5,12 @@
     ],
     "jsRules": {},
     "rules": {
-        "array-type": true,
+        "array-type": false,
         "prefer-const": true,
+        "indent": [true, "spaces"],
+        "no-console": false,
+        "object-literal-sort-keys": false,
+        "max-classes-per-file": [true, 2]
     },
     "rulesDirectory": []
 }
