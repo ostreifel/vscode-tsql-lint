@@ -13,6 +13,8 @@ export class KeywordCasingRule extends BaseSqlRule {
         TSqlParser.BINARY_CHECKSUM,
         TSqlParser.FLOAT,
         TSqlParser.STRING,
+        TSqlParser.QUOTED_URL,
+        TSqlParser.QUOTED_HOST_AND_PORT,
     ];
     constructor() {
         super("KeywordCasing");
