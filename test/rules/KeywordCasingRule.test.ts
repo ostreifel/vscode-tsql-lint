@@ -43,9 +43,19 @@ describe("KeywordCasingRule", () => {
         assert.deepEqual(["int", "varchar", "rowguid", "uniqueidentifier", "money"], failures);
     });
     it("special ids", () => {
-        const sql = `
-            SELECT "quoted", [bracketed], p.Id FROM products p
-        `;
+        const sql = `SELECT "quoted", [bracketed], p.Id FROM products p`;
+        const failures = executeRules(sql, rules).map((f) => f.triggerText);
+        assert.deepEqual([], failures);
+    });
+    it('"default"', () => {
+        const sql = `CREATE WORKLOAD GROUP newReports
+        USING "default" ;`;
+        const failures = executeRules(sql, rules).map((f) => f.triggerText);
+        assert.deepEqual([], failures);
+    });
+    it("address", () => {
+        const sql = `CREATE NONCLUSTERED INDEX IX_Address_PostalCode
+        ON Person.Address (PostalCode)  `;
         const failures = executeRules(sql, rules).map((f) => f.triggerText);
         assert.deepEqual([], failures);
     });

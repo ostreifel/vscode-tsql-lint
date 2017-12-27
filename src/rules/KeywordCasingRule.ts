@@ -21,6 +21,8 @@ export class KeywordCasingRule extends BaseSqlRule {
         TSqlParser.IPV4_ADDR,
         TSqlParser.IPV6_ADDR,
         TSqlParser.NAME,
+        TSqlParser.ADDRESS,
+        TSqlParser.DEFAULT_DOUBLE_QUOTE,
     ];
     constructor() {
         super("KeywordCasing");
@@ -38,7 +40,11 @@ export class KeywordCasingRule extends BaseSqlRule {
                 }
                 const text = ctx.text(symbol);
                 if (text.toLocaleUpperCase() !== text) {
-                    ctx.addError(symbol.startIndex, symbol.stopIndex, `Keywords must be uppercase ${symbol.type}`);
+                    ctx.addError(
+                        symbol.startIndex,
+                        symbol.stopIndex,
+                        `Keywords must be uppercase ${symbol.type} ${text}`,
+                    );
                 }
             }
             public visitChildren(tree: RuleNode): void {
