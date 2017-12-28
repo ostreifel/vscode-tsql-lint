@@ -44,16 +44,19 @@ export function activate(context: vscode.ExtensionContext) {
         };
 
         // Create the language client and start the client.
-        const disposable = new LanguageClient(
+        const client = new LanguageClient(
             "tsql-lint",
             "Language Server Example",
             serverOptions,
             clientOptions,
-        ).start();
+        );
 
         // Push the disposable to the context's subscriptions so that the
         // client can be deactivated on extension deactivation
-        context.subscriptions.push(disposable);
+        context.subscriptions.push(
+            client.start(),
+            vscode.commands.registerCommand("tsql-lint.fix", () => {}),
+        );
 }
 
 // this method is called when your extension is deactivated

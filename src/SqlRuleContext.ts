@@ -6,6 +6,7 @@ export class SqlRuleContext {
     public readonly errors: SqlRuleFailure[] = [];
     constructor(
         public readonly file: ParsedSqlFile,
+        public readonly ruleName: string,
     ) { }
     /**
      * Use this to get the orignal casing of the text.
@@ -19,6 +20,6 @@ export class SqlRuleContext {
         const text = this.file.contents.substring(start, end + 1);
         const startPos = this.file.toPosition(start);
         const endPos = this.file.toPosition(end + 1);
-        this.errors.push(new SqlRuleFailure(startPos, endPos, message, text));
+        this.errors.push(new SqlRuleFailure(this.ruleName, startPos, endPos, message, text));
     }
 }

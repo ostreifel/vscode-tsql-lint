@@ -2,6 +2,7 @@ import { IPosition } from "./ParsedSqlFile";
 
 export class SqlRuleFailure {
     constructor(
+        public readonly ruleName: string,
         public readonly start: IPosition,
         public readonly end: IPosition,
         public readonly message: string,

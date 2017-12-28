@@ -2,6 +2,7 @@ import {
     createConnection, Diagnostic, DiagnosticSeverity, DidChangeWatchedFilesParams,
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter, TextDocument,
     TextDocuments,
+    Command,
 } from "vscode-languageserver";
 import { executeRules } from "../rulesManager";
 import { SqlRuleFailure } from "../SqlRuleFailure";
@@ -71,18 +72,13 @@ function validateTextDocument(textDocument: TextDocument): void {
     connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
 }
 
-connection.onDidChangeWatchedFiles((changeEvent: DidChangeWatchedFilesParams) => {
-    // Monitored files have change in VSCode
-    log("We recevied an file change event");
-});
-
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
     log(`documents.onDidChangeContent ${change.document.uri}`);
     const fileContent = change.document.getText();
 
-    function toDiagnostic({message, start, end}: SqlRuleFailure): Diagnostic {
+    function toDiagnostic({message, start, end, ruleName}: SqlRuleFailure): Diagnostic {
         return {
             message,
             range: {
@@ -96,6 +92,8 @@ documents.onDidChangeContent((change) => {
                 },
             },
             severity: DiagnosticSeverity.Error,
+            code: ruleName,
+            source: "tsql-lint",
         };
     }
     const errors: SqlRuleFailure[] = executeRules(fileContent);
@@ -103,6 +101,16 @@ documents.onDidChangeContent((change) => {
     log(`diagnotics count: ${diagnostics.length}`);
     // Send the computed diagnostics to VS Code.
     connection.sendDiagnostics({ uri: change.document.uri, diagnostics });
+});
+
+connection.onCodeAction((params) => {
+    log("on code action called");
+    const commands: Command[] = [];
+    commands.push(...params.context.diagnostics.map((d): Command => ({
+        title: d.message,
+        command: "tsql-lint.fix",
+    })));
+    return commands;
 });
 
 // Listen on the connection

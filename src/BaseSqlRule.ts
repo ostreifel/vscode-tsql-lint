@@ -5,7 +5,7 @@ import { SqlRuleFailure } from "./SqlRuleFailure";
 export abstract class BaseSqlRule {
     constructor(public readonly name: string) { }
     public apply(file: ParsedSqlFile): SqlRuleFailure[] {
-        const ctx = new SqlRuleContext(file);
+        const ctx = new SqlRuleContext(file, this.name);
         this.applyContext(ctx);
         return ctx.errors;
     }
