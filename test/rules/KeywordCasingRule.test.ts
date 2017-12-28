@@ -1,4 +1,7 @@
+import { ANTLRInputStream, CommonTokenStream, Token } from "antlr4ts";
+import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import * as assert from "assert";
+import { TSqlLexer } from "../../generated/TSqlLexer";
 import { BaseSqlRule } from "../../src/BaseSqlRule";
 import { ParsedSqlFile } from "../../src/ParsedSqlFile";
 import { KeywordCasingRule } from "../../src/rules/KeywordCasingRule";
@@ -34,13 +37,22 @@ describe("KeywordCasingRule", () => {
         const sql = `
             CREATE TABLE T1 (
                 column_1 int,
-                column_2 varchar(30),
-                rowguid uniqueidentifier,
-                LineTotal money NOT NULL,
+                column_2 varchar(30)
             );
         `;
         const failures = executeRules(sql, rules).map((f) => f.triggerText);
-        assert.deepEqual(["int", "varchar", "rowguid", "uniqueidentifier", "money"], failures);
+        assert.deepEqual(["int", "varchar"], failures);
+    });
+    it("datatypes", () => {
+        const sql = `
+            CREATE TABLE T1 (
+                rowguid uniqueidentifier,
+                LineTotal money NOT NULL
+            );
+        `;
+        const failures = executeRules(sql, rules).map((f) => f.triggerText);
+        assert.deepEqual(["uniqueidentifier", "money"], failures);
+
     });
     it("special ids", () => {
         const sql = `SELECT "quoted", [bracketed], p.Id FROM products p`;
