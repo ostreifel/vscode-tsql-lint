@@ -1,11 +1,12 @@
 import {
-    createConnection, Diagnostic, DiagnosticSeverity, DidChangeWatchedFilesParams,
-    IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter, TextDocument,
+    createConnection, Diagnostic, DiagnosticSeverity,
+    IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter,
+    TextDocument,
     TextDocuments,
-    Command,
 } from "vscode-languageserver";
 import { executeRules } from "../rulesManager";
 import { SqlRuleFailure } from "../SqlRuleFailure";
+import { getSqlLintCommands, storeFailure } from "./commands";
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
     if (verboseLog) {
@@ -15,7 +16,6 @@ function log(msg: string, ...args: object[]) {
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
 const connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
-log("Loading sqlLintServer.js");
 
 // Create a simple text document manager. The text document manager
 // supports full document sync only
@@ -28,16 +28,12 @@ documents.listen(connection);
 // in the passed params the rootPath of the workspace plus the client capabilites.
 // let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
-    log("onintialize");
     // workspaceRoot = params.rootPath;
     return {
         capabilities: {
             // Tell the client that the server works in FULL text document sync mode
             textDocumentSync: documents.syncKind,
-            // Tell the client that the server support code complete
-            completionProvider: {
-                resolveProvider: true,
-            },
+            codeActionProvider: true,
         },
     };
 });
@@ -65,53 +61,41 @@ connection.onDidChangeConfiguration((change) => {
     documents.all().forEach(validateTextDocument);
 });
 
-function validateTextDocument(textDocument: TextDocument): void {
-    log(`Validating Doc ${textDocument.uri}`);
-    const diagnostics: Diagnostic[] = [];
-    // Send the computed diagnostics to VSCode.
-    connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
-}
+function validateTextDocument(document: TextDocument): void {
+    const fileContent = document.getText();
+
+    function toDiagnostic(failure: SqlRuleFailure): Diagnostic {
+        const diagnostic: Diagnostic =  {
+            message: failure.message,
+            range: {
+                start: {
+                    line: failure.startPos.line,
+                    character: failure.startPos.column,
+                },
+                end: {
+                    line: failure.endPos.line,
+                    character: failure.endPos.column + 1,
+                },
+            },
+            severity: DiagnosticSeverity.Error,
+            code: failure.ruleName,
+            source: "tsql-lint",
+        };
+        storeFailure(document, diagnostic, failure);
+        return diagnostic;
+    }
+    const errors: SqlRuleFailure[] = executeRules(fileContent);
+    const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
+    // Send the computed diagnostics to VS Code.
+    connection.sendDiagnostics({ uri: document.uri, diagnostics }); }
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent((change) => {
-    log(`documents.onDidChangeContent ${change.document.uri}`);
-    const fileContent = change.document.getText();
-
-    function toDiagnostic({message, start, end, ruleName}: SqlRuleFailure): Diagnostic {
-        return {
-            message,
-            range: {
-                start: {
-                    line: start.line,
-                    character: start.column,
-                },
-                end: {
-                    line: end.line,
-                    character: end.column,
-                },
-            },
-            severity: DiagnosticSeverity.Error,
-            code: ruleName,
-            source: "tsql-lint",
-        };
-    }
-    const errors: SqlRuleFailure[] = executeRules(fileContent);
-    const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
-    log(`diagnotics count: ${diagnostics.length}`);
-    // Send the computed diagnostics to VS Code.
-    connection.sendDiagnostics({ uri: change.document.uri, diagnostics });
+    validateTextDocument(change.document);
 });
 
-connection.onCodeAction((params) => {
-    log("on code action called");
-    const commands: Command[] = [];
-    commands.push(...params.context.diagnostics.map((d): Command => ({
-        title: d.message,
-        command: "tsql-lint.fix",
-    })));
-    return commands;
-});
+connection.onCodeAction(getSqlLintCommands);
 
 // Listen on the connection
 connection.listen();

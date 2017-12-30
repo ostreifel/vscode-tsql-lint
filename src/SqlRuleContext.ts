@@ -1,5 +1,6 @@
 import { Token } from "antlr4ts";
 import { ParsedSqlFile } from "./ParsedSqlFile";
+import { Replacement } from "./Replacement";
 import { SqlRuleFailure } from "./SqlRuleFailure";
 
 export class SqlRuleContext {
@@ -16,10 +17,7 @@ export class SqlRuleContext {
     public text(token: Token) {
         return this.file.contents.substring(token.startIndex, token.stopIndex + 1);
     }
-    public addError(start: number, end: number, message: string) {
-        const text = this.file.contents.substring(start, end + 1);
-        const startPos = this.file.toPosition(start);
-        const endPos = this.file.toPosition(end + 1);
-        this.errors.push(new SqlRuleFailure(this.ruleName, startPos, endPos, message, text));
+    public addError(start: number, end: number, message: string, fix: Replacement[]) {
+        this.errors.push(new SqlRuleFailure(this.ruleName, this.file, start, end, message, fix));
     }
 }

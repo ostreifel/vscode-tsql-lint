@@ -3,6 +3,7 @@ import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { Data_typeContext, TSqlParser } from "../../generated/TSqlParser";
 import { BaseRuleWalker } from "../BaseRuleWalker";
 import { BaseSqlRule } from "../BaseSqlRule";
+import { Replacement } from "../Replacement";
 import { SqlRuleContext } from "../SqlRuleContext";
 
 interface IWords {
@@ -59,6 +60,7 @@ export class KeywordCasingRule extends BaseSqlRule {
                         symbol.startIndex,
                         symbol.stopIndex,
                         `Keyword ${text} must be uppercase (type: ${symbol.type})`,
+                        [Replacement.replace(symbol, upperText)],
                     );
                 }
             }

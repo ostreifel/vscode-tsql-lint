@@ -5,14 +5,14 @@ import { SqlRuleContext } from "../src/SqlRuleContext";
 describe("SqlRuleContext", () => {
     it("error index", () => {
         const file = new ParsedSqlFile("select 1");
-        const context = new SqlRuleContext(file);
-        context.addError(0, 3, "test");
+        const context = new SqlRuleContext(file, "");
+        context.addError(0, 3, "test", []);
         assert.equal(context.errors.length, 1);
-        const [{ start, end, triggerText}] = context.errors;
-        assert.equal(start.line, 0, "start row");
-        assert.equal(start.column, 0, "start column");
-        assert.equal(end.line, 0, "end row");
-        assert.equal(end.column, 4, "end column");
+        const [{ startPos, endPos, triggerText}] = context.errors;
+        assert.equal(startPos.line, 0, "startPos row");
+        assert.equal(startPos.column, 0, "startPos column");
+        assert.equal(endPos.line, 0, "endPos row");
+        assert.equal(endPos.column, 3, "endPos column");
         assert.equal(triggerText, "sele");
     });
 });
