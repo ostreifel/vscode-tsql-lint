@@ -67,7 +67,6 @@ export function getSqlLintCommands(params: CodeActionParams): Command[] {
             (each) => server.TextEdit.replace(server.Range.create(each.range[0], each.range[1]), each.text || ""),
         );
     }
-    console.log("on code action called", params);
     const document = params.textDocument;
     const commands: Command[] = [];
 
@@ -76,7 +75,13 @@ export function getSqlLintCommands(params: CodeActionParams): Command[] {
         if (!fix) {
             continue;
         }
-        commands.push(Command.create(diagnostic.message, "_tsql-lint.fix", document.uri, createTextEdit(fix)));
+        commands.push(Command.create(
+            diagnostic.message,
+            "_tsql-lint.fix",
+            document.uri,
+            fix.documentVersion,
+            createTextEdit(fix),
+        ));
     }
     // TODO fixall
     // TODO fix all of type
