@@ -6,7 +6,7 @@ import {
 } from "vscode-languageserver";
 import { executeRules } from "../rulesManager";
 import { SqlRuleFailure } from "../SqlRuleFailure";
-import { getSqlLintCommands, storeFailure } from "./commands";
+import { getSqlLintCommands, resetFileFailures, storeFailure } from "./commands";
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
     if (verboseLog) {
@@ -64,6 +64,7 @@ connection.onDidChangeConfiguration((change) => {
 function validateTextDocument(document: TextDocument): void {
     const fileContent = document.getText();
 
+    resetFileFailures(document.uri);
     function toDiagnostic(failure: SqlRuleFailure): Diagnostic {
         const diagnostic: Diagnostic =  {
             message: failure.message,
