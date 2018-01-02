@@ -1,11 +1,11 @@
 import * as assert from "assert";
-import { ParsedSqlFile } from "../src/ParsedSqlFile";
-import { SqlRuleContext } from "../src/SqlRuleContext";
+import { ParsedSqlFile } from "../src/server/lint/ParsedSqlFile";
+import { SqlRuleContext } from "../src/server/lint/SqlRuleContext";
 
 describe("SqlRuleContext", () => {
     it("error index", () => {
         const file = new ParsedSqlFile("select 1");
-        const context = new SqlRuleContext(file, "");
+        const context = new SqlRuleContext("", file, []);
         context.addError(0, 3, "test", []);
         assert.equal(context.errors.length, 1);
         const [{ startPos, endPos, triggerText}] = context.errors;

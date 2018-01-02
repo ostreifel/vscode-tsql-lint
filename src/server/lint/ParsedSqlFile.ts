@@ -1,6 +1,6 @@
 import { ANTLRInputStream, CommonTokenStream } from "antlr4ts";
-import { TSqlLexer } from "../generated/TSqlLexer";
-import { Tsql_fileContext, TSqlParser } from "../generated/TSqlParser";
+import { TSqlLexer } from "../../../generated/TSqlLexer";
+import { Tsql_fileContext, TSqlParser } from "../../../generated/TSqlParser";
 export interface IPosition {
     line: number;
     column: number;
@@ -10,14 +10,15 @@ interface ILine {
 }
 export class ParsedSqlFile {
     public readonly node: Tsql_fileContext;
+    public tokenStream: CommonTokenStream;
     private readonly lines: ILine[];
     constructor(readonly contents: string) {
         const upperInput = contents.toLocaleUpperCase();
         // Create the lexer and parser
         const inputStream = new ANTLRInputStream(upperInput);
         const lexer = new TSqlLexer(inputStream);
-        const tokenStream = new CommonTokenStream(lexer);
-        const parser = new TSqlParser(tokenStream);
+        this.tokenStream = new CommonTokenStream(lexer);
+        const parser = new TSqlParser(this.tokenStream);
 
         // Parse the input, where `compilationUnit` is whatever entry point you defined
         this.node = parser.tsql_file();

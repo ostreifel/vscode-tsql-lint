@@ -2,10 +2,10 @@ import { ANTLRInputStream, CommonTokenStream, Token } from "antlr4ts";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import * as assert from "assert";
 import { TSqlLexer } from "../../generated/TSqlLexer";
-import { BaseSqlRule } from "../../src/BaseSqlRule";
-import { ParsedSqlFile } from "../../src/ParsedSqlFile";
-import { KeywordCasingRule } from "../../src/rules/KeywordCasingRule";
-import { executeRules } from "../../src/rulesManager";
+import { BaseSqlRule } from "../../src/server/lint/BaseSqlRule";
+import { ParsedSqlFile } from "../../src/server/lint/ParsedSqlFile";
+import { KeywordCasingRule } from "../../src/server/lint/rules/KeywordCasingRule";
+import { executeRules } from "../../src/server/lint/rulesManager";
 
 describe("KeywordCasingRule", () => {
     const rules: BaseSqlRule[] = [new KeywordCasingRule()];

@@ -1,7 +1,7 @@
 import * as server from "vscode-languageserver";
 import { CodeActionParams, Command } from "vscode-languageserver";
-import { Replacement } from "../Replacement";
-import { SqlRuleFailure } from "../SqlRuleFailure";
+import { Replacement } from "./lint/Replacement";
+import { SqlRuleFailure } from "./lint/SqlRuleFailure";
 
 interface IFileFixes {
     [diagnosticKey: string]: IAutoFix;
