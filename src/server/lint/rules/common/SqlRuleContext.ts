@@ -1,7 +1,7 @@
 import { Token } from "antlr4ts";
-import { IExemption } from "./getExemptions";
-import { ParsedSqlFile } from "./ParsedSqlFile";
-import { Replacement } from "./Replacement";
+import { IExemption } from "../../getExemptions";
+import { ParsedSqlFile } from "../../ParsedSqlFile";
+import { Replacement } from "../../Replacement";
 import { SqlRuleFailure } from "./SqlRuleFailure";
 
 export class SqlRuleContext {

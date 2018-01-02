@@ -1,5 +1,5 @@
-import { IPosition, ParsedSqlFile } from "./ParsedSqlFile";
-import { Replacement } from "./Replacement";
+import { IPosition, ParsedSqlFile } from "../../ParsedSqlFile";
+import { Replacement } from "../../Replacement";
 
 export class SqlRuleFailure {
     public readonly startPos: IPosition;

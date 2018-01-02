@@ -1,10 +1,10 @@
 import { RuleNode } from "antlr4ts/tree/RuleNode";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import { Data_typeContext, TSqlParser } from "../../../../generated/TSqlParser";
-import { BaseRuleWalker } from "../BaseRuleWalker";
-import { BaseSqlRule } from "../BaseSqlRule";
 import { Replacement } from "../Replacement";
-import { SqlRuleContext } from "../SqlRuleContext";
+import { BaseRuleWalker } from "./common/BaseRuleWalker";
+import { BaseSqlRule } from "./common/BaseSqlRule";
+import { SqlRuleContext } from "./common/SqlRuleContext";
 
 interface IWords {
     /** word is upper case here */

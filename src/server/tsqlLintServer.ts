@@ -5,8 +5,8 @@ import {
     TextDocuments,
 } from "vscode-languageserver";
 import { getSqlLintCommands, resetFileFailures, storeFailure } from "./commands";
+import { SqlRuleFailure } from "./lint/rules/common/SqlRuleFailure";
 import { executeRules } from "./lint/rulesManager";
-import { SqlRuleFailure } from "./lint/SqlRuleFailure";
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
     if (verboseLog) {

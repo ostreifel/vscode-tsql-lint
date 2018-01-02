@@ -2,8 +2,8 @@ import { ANTLRInputStream, CommonTokenStream, Token } from "antlr4ts";
 import { TerminalNode } from "antlr4ts/tree/TerminalNode";
 import * as assert from "assert";
 import { TSqlLexer } from "../../generated/TSqlLexer";
-import { BaseSqlRule } from "../../src/server/lint/BaseSqlRule";
 import { ParsedSqlFile } from "../../src/server/lint/ParsedSqlFile";
+import { BaseSqlRule } from "../../src/server/lint/rules/common/BaseSqlRule";
 import { KeywordCasingRule } from "../../src/server/lint/rules/KeywordCasingRule";
 import { executeRules } from "../../src/server/lint/rulesManager";
 

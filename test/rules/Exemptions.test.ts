@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { BaseSqlRule } from "../../src/server/lint/BaseSqlRule";
 import { getExemptions, IExemption } from "../../src/server/lint/getExemptions";
 import { ParsedSqlFile } from "../../src/server/lint/ParsedSqlFile";
+import { BaseSqlRule } from "../../src/server/lint/rules/common/BaseSqlRule";
 import { KeywordCasingRule } from "../../src/server/lint/rules/KeywordCasingRule";
 import { executeRules } from "../../src/server/lint/rulesManager";
 

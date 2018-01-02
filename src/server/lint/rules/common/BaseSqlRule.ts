@@ -1,5 +1,5 @@
-import { IExemption } from "./getExemptions";
-import { ParsedSqlFile } from "./ParsedSqlFile";
+import { IExemption } from "../../getExemptions";
+import { ParsedSqlFile } from "../../ParsedSqlFile";
 import { SqlRuleContext } from "./SqlRuleContext";
 import { SqlRuleFailure } from "./SqlRuleFailure";
 
