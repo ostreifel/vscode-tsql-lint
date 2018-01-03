@@ -60,7 +60,7 @@ export class KeywordCasingRule extends BaseSqlRule {
                     ctx.addError(
                         symbol.startIndex,
                         symbol.stopIndex,
-                        `Keyword ${text} must be uppercase (type: ${symbol.type})`,
+                        `Keyword ${text} must be uppercase`,
                         [Replacement.replace(symbol, upperText)],
                     );
                 }

@@ -1,12 +1,16 @@
+import * as fs from "fs";
+import * as path from "path";
 import {
     createConnection, Diagnostic, DiagnosticSeverity,
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter,
     TextDocument,
     TextDocuments,
 } from "vscode-languageserver";
+import Uri from "vscode-uri";
 import { getSqlLintCommands, resetFileFailures, storeFailure } from "./commands";
 import { SqlRuleFailure } from "./lint/rules/common/SqlRuleFailure";
-import { executeRules } from "./lint/rulesManager";
+import { executeForFile } from "./lint/rulesManager";
+
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
     if (verboseLog) {
@@ -65,6 +69,22 @@ function validateTextDocument(document: TextDocument): void {
     const fileContent = document.getText();
 
     resetFileFailures(document.uri);
+    function getFilePath(uriString: string): string | "" {
+        const uri = Uri.parse(uriString);
+        if (uri.scheme !== "file" || !uri.path) {
+            return "";
+        }
+        const p1 = path.resolve(uri.path);
+        if (fs.existsSync(p1)) {
+            return p1;
+        }
+        // vscode-uri has a bugged regex search sometimes
+        const p2 = path.resolve(uri.path.substr(1));
+        if (fs.existsSync(p2)) {
+            return p2;
+        }
+        return "";
+    }
     function toDiagnostic(failure: SqlRuleFailure): Diagnostic {
         const diagnostic: Diagnostic =  {
             message: failure.message,
@@ -85,7 +105,7 @@ function validateTextDocument(document: TextDocument): void {
         storeFailure(document, diagnostic, failure);
         return diagnostic;
     }
-    const errors: SqlRuleFailure[] = executeRules(fileContent);
+    const errors: SqlRuleFailure[] = executeForFile(fileContent, getFilePath(document.uri));
     const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
     // Send the computed diagnostics to VS Code.
     connection.sendDiagnostics({ uri: document.uri, diagnostics }); }

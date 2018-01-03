@@ -51,7 +51,6 @@ export function activate(extensionContext: vscode.ExtensionContext) {
                 provideCodeActions: (
                     document, range, context, token, next,
                 ): vscode.ProviderResult<vscode.Command[]> => {
-                    console.log("provide code actions");
                     // do not ask server for code action when the diagnostic isn't from tsql-lint
                     if (!context.diagnostics || context.diagnostics.length === 0) {
                         return [];

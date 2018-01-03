@@ -10,7 +10,8 @@
         "indent": [true, "spaces"],
         "no-console": false,
         "object-literal-sort-keys": false,
-        "max-classes-per-file": [true, 2]
+        "max-classes-per-file": [true, 2],
+        "forin": false
     },
     "rulesDirectory": []
 }
