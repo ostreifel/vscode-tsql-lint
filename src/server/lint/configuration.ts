@@ -10,6 +10,7 @@ export interface ILintConfiguration {
     rules: ILintRulesConfiguration;
 }
 
+/** from tsqllint (c# impl) */
 const defaultConfig: ILintConfiguration = {
     rules: {
         "conditional-begin-end": "error",

@@ -23,6 +23,8 @@ function toWords(text: string) {
 /**
  *  Keywords from https://docs.microsoft.com/en-us/sql/t-sql/language-elements/reserved-keywords-transact-sql
  *  using $('table:not([class])').toArray().map(t => $('td', t).toArray().map(t => $(t).text()).join(' '))
+ *
+ * Also checks type names
  */
 export class KeywordCasingRule extends BaseSqlRule {
     // tslint:disable-next-line:max-line-length
