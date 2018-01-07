@@ -1,5 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
+import { executeForFile } from "tsql-lint-ts";
+import { SqlRuleFailure } from "tsql-lint-ts/lib/rules/common/SqlRuleFailure";
 import {
     createConnection, Diagnostic, DiagnosticSeverity,
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter,
@@ -8,8 +10,8 @@ import {
 } from "vscode-languageserver";
 import Uri from "vscode-uri";
 import { getSqlLintCommands, resetFileFailures, storeFailure } from "./commands";
-import { SqlRuleFailure } from "./lint/rules/common/SqlRuleFailure";
-import { executeForFile } from "./lint/rulesManager";
+// import { SqlRuleFailure } from "./lint/rules/common/SqlRuleFailure";
+// import { executeForFile } from "./lint/rulesManager";
 
 const verboseLog = true;
 function log(msg: string, ...args: object[]) {
@@ -41,22 +43,6 @@ connection.onInitialize((params): InitializeResult => {
         },
     };
 });
-
-// The settings interface describe the server relevant settings part
-// interface ISettings {
-//     "tsql-lint": IExampleSettings;
-// }
-
-// // These are the example settings we defined in the client's package.json
-// // file
-// interface IExampleSettings {
-//     maxNumberOfProblems: number;
-// }
-
-// hold the maxNumberOfProblems setting
-// let maxNumberOfProblems: number;
-// The settings have changed. Is send on server activation
-// as well.
 connection.onDidChangeConfiguration((change) => {
     log("settings", change.settings);
     // const settings = change.settings as ISettings;

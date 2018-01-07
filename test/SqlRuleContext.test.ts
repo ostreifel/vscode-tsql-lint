@@ -1,6 +1,6 @@
 import * as assert from "assert";
-import { ParsedSqlFile } from "../src/server/lint/ParsedSqlFile";
-import { SqlRuleContext } from "../src/server/lint/rules/common/SqlRuleContext";
+import { ParsedSqlFile } from "tsql-lint-ts/lib/ParsedSqlFile";
+import { SqlRuleContext } from "tsql-lint-ts/lib/rules/common/SqlRuleContext";
 
 describe("SqlRuleContext", () => {
     it("error index", () => {

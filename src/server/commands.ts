@@ -1,7 +1,7 @@
+import { Replacement } from "tsql-lint-ts/lib/Replacement";
+import { SqlRuleFailure } from "tsql-lint-ts/lib/rules/common/SqlRuleFailure";
 import * as server from "vscode-languageserver";
 import { CodeActionParams, Command } from "vscode-languageserver";
-import { Replacement } from "./lint/Replacement";
-import { SqlRuleFailure } from "./lint/rules/common/SqlRuleFailure";
 
 interface IFileFixes {
     [diagnosticKey: string]: IAutoFix;

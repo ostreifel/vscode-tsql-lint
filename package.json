@@ -18,6 +18,12 @@
   "contributes": {
     "commands": []
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ostreifel/vscode-tsql-lint.git"
+  },
+  "author": "Otto Streifel",
+  "license": "MIT",
   "configuration": {
     "type": "object",
     "title": "Tsql lint configuration",
