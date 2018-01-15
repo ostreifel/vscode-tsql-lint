@@ -1,7 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { executeForFile } from "tsql-lint-ts";
-import { SqlRuleFailure } from "tsql-lint-ts/lib/rules/common/SqlRuleFailure";
 import {
     createConnection, Diagnostic, DiagnosticSeverity,
     IConnection, InitializeResult, IPCMessageReader, IPCMessageWriter,
@@ -71,7 +69,7 @@ function validateTextDocument(document: TextDocument): void {
         }
         return "";
     }
-    function toDiagnostic(failure: SqlRuleFailure): Diagnostic {
+    function toDiagnostic(failure: any): Diagnostic {
         const diagnostic: Diagnostic =  {
             message: failure.message,
             range: {
@@ -91,7 +89,7 @@ function validateTextDocument(document: TextDocument): void {
         storeFailure(document, diagnostic, failure);
         return diagnostic;
     }
-    const errors: SqlRuleFailure[] = executeForFile(fileContent, getFilePath(document.uri));
+    const errors: any[] = []; // executeForFile(fileContent, getFilePath(document.uri));
     const diagnostics: Diagnostic[] = errors.map(toDiagnostic);
     // Send the computed diagnostics to VS Code.
     connection.sendDiagnostics({ uri: document.uri, diagnostics }); }

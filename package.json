@@ -51,6 +51,8 @@
     "vscode": "^1.1.10"
   },
   "dependencies": {
+    "edge": "^7.10.1",
+    "tsqllint": "^1.8.10",
     "vscode-languageclient": "^3.5.0",
     "vscode-languageserver": "^3.5.0",
     "vscode-uri": "^1.0.1"

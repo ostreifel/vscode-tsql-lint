@@ -1,5 +1,3 @@
-import { Replacement } from "tsql-lint-ts/lib/Replacement";
-import { SqlRuleFailure } from "tsql-lint-ts/lib/rules/common/SqlRuleFailure";
 import * as server from "vscode-languageserver";
 import { CodeActionParams, Command } from "vscode-languageserver";
 
@@ -20,10 +18,10 @@ function getFileFixes(uri: string): IFileFixes {
 }
 
 export function storeFailure(
-    document: server.TextDocument, diagnostic: server.Diagnostic, failure: SqlRuleFailure,
+    document: server.TextDocument, diagnostic: server.Diagnostic, failure: any,
 ): void {
     function toAutoFix(): IAutoFix | null {
-        function convertReplacementToEdit(replacement: Replacement): IEdit {
+        function convertReplacementToEdit(replacement: any): IEdit {
             const start: server.Position = document.positionAt(replacement.start);
             const end: server.Position = document.positionAt(replacement.end);
             return {
@@ -54,7 +52,7 @@ export function resetFileFailures(uri: string) {
 interface IAutoFix {
     label: string;
     documentVersion: number;
-    failure: SqlRuleFailure;
+    failure: any;
     edits: IEdit[];
 }
 interface IEdit {
